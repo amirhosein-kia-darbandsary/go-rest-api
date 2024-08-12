@@ -41,7 +41,7 @@ func (service *Service) GetComment(ctx context.Context, id string) (Comment, err
 	fmt.Println("Retrieving the Comment from the database")
 	cmt, err := service.Store.GetComment(ctx, id)
 	if err != nil {
-		fmt.Println("Error has Accured :", FetchCommentError)
+		fmt.Println("Error has Accured :", fetchCommentError)
 	}
 	return cmt, nil
 }

@@ -16,6 +16,8 @@ func Run() {
 	if pinged != nil {
 		fmt.Println("ERROR IN PINGING THE DB....")
 	}
+	fmt.Println("STarting migrating .......")
+	db.Migrate()
 	fmt.Println("Run the server......")
 }
 
