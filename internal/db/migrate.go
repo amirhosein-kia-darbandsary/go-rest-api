@@ -3,6 +3,7 @@ package db
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
@@ -16,13 +17,17 @@ func (d *Database) Migrate() {
 		log.Fatalf("Error creating Postgres driver: %v", err)
 		return
 	}
-
-	m, err := migrate.NewWithDatabaseInstance(
-		"file:///migrations",
-		"postgres",
-		driver)
+	cwd, err := os.Getwd()
 	if err != nil {
-		log.Fatalf("Error creating migration instance: %v", err)
+		log.Fatalf("Error getting working directory: %v", err)
+	}
+	fmt.Println("Current working directory:", cwd)
+	m, err := migrate.NewWithDatabaseInstance("file:///migrations", "postgres", driver)
+	if err != nil {
+		log.Fatalf(
+			"Error creating migration instance: %v",
+			err,
+		)
 		return
 	}
 
