@@ -12,9 +12,10 @@ func Run() {
 	if err != nil {
 		fmt.Println("Db has Not connection Detail :", err)
 	}
-
 	pinged := db.PingDatabase(context.Background())
-	fmt.Println(pinged)
+	if pinged != nil {
+		fmt.Println("ERROR IN PINGING THE DB....")
+	}
 	fmt.Println("Run the server......")
 }
 

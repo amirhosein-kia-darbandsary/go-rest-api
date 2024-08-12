@@ -23,9 +23,6 @@ func NewDatabaseConnection() (*Database, error) {
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("SSL_MODE"),
 	)
-
-	test := os.Getenv("DB_HOST")
-	fmt.Println(test)
 	dbConn, err := sqlx.Connect("postgres", connectString)
 	if err != nil {
 		return &Database{}, fmt.Errorf("couldn't connect to the database")
@@ -34,5 +31,6 @@ func NewDatabaseConnection() (*Database, error) {
 }
 
 func (d *Database) PingDatabase(ctx context.Context) error {
+	
 	return d.Client.PingContext(ctx)
 }
