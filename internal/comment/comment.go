@@ -7,11 +7,14 @@ import (
 )
 
 var (
-	fetchCommentError = errors.New("Can't Fetch Comments from the database")
+	fetchCommentError = errors.New("cannot fetch comments from the database")
 )
 
 type Store interface {
 	GetComment(context.Context, string) (Comment, error)
+	PostComment(context.Context, Comment) error
+	UpdateComment(context.Context, string, Comment) error
+	DeleteComment(context.Context, string) error
 }
 
 // Comment - a reperesentation of a structure
@@ -44,4 +47,30 @@ func (service *Service) GetComment(ctx context.Context, id string) (Comment, err
 		fmt.Println("Error has Accured :", fetchCommentError)
 	}
 	return cmt, nil
+}
+
+func (service *Service) PostComment(ctx context.Context, cmt Comment) error {
+	fmt.Println("Posting the Comment to the database")
+	err := service.Store.PostComment(ctx, cmt)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (service *Service) UpdateComment(ctx context.Context, id string, cmt Comment) error {
+	fmt.Println("Updating the Comment....")
+	err := service.Store.UpdateComment(ctx, id, cmt)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return nil
+}
+
+func (service *Service) DeleteComment(ctx context.Context, id string) {
+	fmt.Println("Deleteing the Comment ....")
+	err := service.Store.DeleteComment(ctx, id)
+	if err != nil {
+		fmt.Println("Can't delete the message the uuid : ", id)
+	}
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/amirhosein-kia-darbandsary/project/internal/comment"
 	"github.com/amirhosein-kia-darbandsary/project/internal/db"
 )
 
@@ -18,7 +19,10 @@ func Run() {
 	}
 	fmt.Println("STarting migrating .......")
 	db.Migrate()
-	fmt.Println("Run the server......")
+	cmtService := comment.NewService(db)
+
+	cmtService.DeleteComment(context.Background(), "43edc8d0-6d3c-457d-81ad-1e2473aebc92")
+
 }
 
 func main() {
