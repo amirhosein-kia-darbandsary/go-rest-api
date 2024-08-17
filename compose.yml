@@ -18,6 +18,8 @@ services:
   api:
     build: .
     container_name: "comment_api"
+    ports:
+      - 8000:8000
     environment:
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
