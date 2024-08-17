@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 	adapter "project/internal/adaptors"
 	"project/internal/core"
@@ -8,13 +9,15 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jmoiron/sqlx"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func main() {
-	db, _ := sqlx.Connect("postgres", "user=username dbname=mydb sslmode=disable")
-	// if err != nil {
-	// 	log.Fatalln("Failed to connect to the database:", err)
-	// }
+	db, err := sqlx.Connect("sqlite3", "test.db")
+	if err != nil {
+		log.Fatalln("Failed to connect to the database:", err)
+	}
+	defer db.Close()
 
 	// intial the Global Router
 	muxRouter := mux.NewRouter()

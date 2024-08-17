@@ -1,7 +1,8 @@
 package domain
 
 type CustomerDomain struct {
-	Name string `json:"username" xml:"username"`
+	Id   int    `json:id`
+	Name string `json:"name" xml:"username"`
 	Age  int    `json:"age" xml:"age"`
 }
 

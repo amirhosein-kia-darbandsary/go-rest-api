@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"project/internal/core"
+	"project/internal/domain"
 
 	"github.com/gorilla/mux"
 )
@@ -49,4 +50,34 @@ func (h *CustomerHandler) GetCustomerHandler(w http.ResponseWriter, r *http.Requ
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(customer)
+}
+func (h *CustomerHandler) PostCustomerHandler(w http.ResponseWriter, r *http.Request) {
+	var customer domain.CustomerDomain
+	err := json.NewDecoder(r.Body).Decode(&customer)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+
+	// err := h.customerService.PostCustomer(customer)
+	errPost := h.customerService.PostCustomer(customer)
+	if errPost != nil {
+		log.Fatalf(errPost.Error())
+	}
+}
+
+func (h *CustomerHandler) DeleteCustomerHanlder(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	customerID := vars["customer_id"]
+
+	err := h.customerService.DeleteCustomer(customerID)
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusNoContent)
+
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
 }
